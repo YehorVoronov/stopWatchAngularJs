@@ -17,6 +17,12 @@ export class AppComponent implements OnInit{
   public isStart:boolean = true;
   public clickTimes:number=0;
 
+  //buffer toggle
+  public clicks=fromEvent(document,'dblclick');
+  public openings=interval(500);
+  public buffered=this.openings.pipe(buffer(this.clicks))
+
+  
   ngOnInit():void {
 
   }
@@ -46,12 +52,15 @@ export class AppComponent implements OnInit{
       this.data=a
       this.minute=b
   }
+   waitIvBuf(){
+    this.buffered.subscribe(x=>this.waitIv())
+  }
   resetIv(){
     this.minute=0
     this.data=0
   }
 
-  doubleClick(){
+ /* doubleClick(){
     let pendingClick;
     this.clickTimes++
     if (this.clickTimes>=2){
@@ -64,5 +73,5 @@ export class AppComponent implements OnInit{
     pendingClick=setTimeout(()=>{
       this.clickTimes=0
     },500)
-  }
+  }*/
 }
